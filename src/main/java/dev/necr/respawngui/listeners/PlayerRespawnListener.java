@@ -31,6 +31,7 @@ public class PlayerRespawnListener implements Listener {
 
     private final ItemStack respawnItem = new ItemStack(Material.EMERALD, 1);
     private final ItemStack backItem = new ItemStack(Material.ARROW, 1);
+    private final ItemStack warpBaseItem = new ItemStack(Material.GRASS_BLOCK, 1);
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -56,8 +57,16 @@ public class PlayerRespawnListener implements Listener {
 
         backItem.setItemMeta(backItemMeta);
 
-        inventory.setItem(12, respawnItem);
-        inventory.setItem(14, backItem);
+        ItemMeta warpBaseItemMeta = warpBaseItem.getItemMeta();
+        warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn with /warp base"));
+        warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn with /warp base!")));
+        warpBaseItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+
+        warpBaseItem.setItemMeta(warpBaseItemMeta);
+
+        inventory.setItem(13, respawnItem);
+        inventory.setItem(15, backItem);
+        inventory.setItem(11, warpBaseItem);
 
         // this.plugin.getLogger().info("Added item to inventory for " + player.getName() + "!");
 
@@ -102,6 +111,19 @@ public class PlayerRespawnListener implements Listener {
                     // Respawn the player with /back
                     player.performCommand("back");
                     // this.plugin.getLogger().info("Player " + player.getName() + " respawned with /back!");
+
+                    // Close the inventory
+                    player.closeInventory();
+                    // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+                }
+
+                // Check if the clicked item is the warp base item
+                if (clickedItem.getType() == warpBaseItem.getType()) {
+                    // this.plugin.getLogger().info("Player " + player.getName() + " clicked on the warp base item!");
+
+                    // Respawn the player with /warp base
+                    player.performCommand("warp base");
+                    // this.plugin.getLogger().info("Player " + player.getName() + " respawned with /warp base!");
 
                     // Close the inventory
                     player.closeInventory();
