@@ -1,0 +1,114 @@
+package dev.necr.respawngui.listeners;
+
+import dev.necr.respawngui.RespawnGUI;
+import dev.necr.respawngui.utils.Utils;
+
+import lombok.RequiredArgsConstructor;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Collections;
+
+@RequiredArgsConstructor
+@SuppressWarnings({"deprecation"})
+public class PlayerRespawnListener implements Listener {
+
+    private final RespawnGUI plugin;
+
+    private final String title = "You Died!";
+
+    private final ItemStack respawnItem = new ItemStack(Material.EMERALD, 1);
+    private final ItemStack backItem = new ItemStack(Material.ARROW, 1);
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        // this.plugin.getLogger().info("Player " + event.getPlayer().getName() + " has respawned!");
+
+        // Create the inventory
+        Inventory inventory = Bukkit.createInventory(null, 27, title);
+        // this.plugin.getLogger().info("Created inventory for " + player.getName() + "!");
+
+        // Add items to the inventory
+        ItemMeta respawnItemMeta = respawnItem.getItemMeta();
+        respawnItemMeta.setDisplayName(Utils.colorize("&aRespawn"));
+        respawnItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn!")));
+        respawnItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+
+        respawnItem.setItemMeta(respawnItemMeta);
+
+        ItemMeta backItemMeta = backItem.getItemMeta();
+        backItemMeta.setDisplayName(Utils.colorize("&aRespawn with /back"));
+        backItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn with /back!")));
+        backItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+
+        backItem.setItemMeta(backItemMeta);
+
+        inventory.setItem(12, respawnItem);
+        inventory.setItem(14, backItem);
+
+        // this.plugin.getLogger().info("Added item to inventory for " + player.getName() + "!");
+
+
+        // Schedule a delayed task using Bukkit Scheduler
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+
+            // Open the inventory for the player
+            player.openInventory(inventory);
+            // this.plugin.getLogger().info("Opened inventory for " + player.getName() + "!");
+
+        }, 1L / 2L); // 20 ticks = 1-second delay
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInventoryClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        ItemStack clickedItem = event.getCurrentItem();
+
+        // Check if the inventory is the same inventory created before
+        if (event.getClickedInventory() != null && event.getView().getTitle().equals(title)) {
+            // this.plugin.getLogger().info("Player " + player.getName() + " clicked in the inventory!");
+
+            // Check if the clicked item is not null
+            if (clickedItem != null) {
+                // this.plugin.getLogger().info("Player " + player.getName() + " clicked on an item!");
+
+                // Check if the clicked item is the respawn item
+                if (clickedItem.getType() == respawnItem.getType()) {
+                    // this.plugin.getLogger().info("Player " + player.getName() + " clicked on the respawn item!");
+
+                    // Close the inventory
+                    player.closeInventory();
+                    // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+                }
+
+                // Check if the clicked item is the back item
+                if (clickedItem.getType() == backItem.getType()) {
+                    // this.plugin.getLogger().info("Player " + player.getName() + " clicked on the back item!");
+
+                    // Respawn the player with /back
+                    player.performCommand("back");
+                    // this.plugin.getLogger().info("Player " + player.getName() + " respawned with /back!");
+
+                    // Close the inventory
+                    player.closeInventory();
+                    // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+                }
+            }
+        }
+    }
+
+}
