@@ -58,7 +58,7 @@ public class PlayerRespawnListener implements Listener {
         backItem.setItemMeta(backItemMeta);
 
         ItemMeta warpBaseItemMeta = warpBaseItem.getItemMeta();
-        warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn with \"/warp base!\""));
+        warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn dengan \"/warp base!\""));
         warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/warp base!\"")));
         warpBaseItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
