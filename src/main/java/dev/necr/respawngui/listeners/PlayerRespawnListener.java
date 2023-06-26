@@ -45,21 +45,21 @@ public class PlayerRespawnListener implements Listener {
         // Add items to the inventory
         ItemMeta respawnItemMeta = respawnItem.getItemMeta();
         respawnItemMeta.setDisplayName(Utils.colorize("&aRespawn"));
-        respawnItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn!")));
+        respawnItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn!")));
         respawnItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
         respawnItem.setItemMeta(respawnItemMeta);
 
         ItemMeta backItemMeta = backItem.getItemMeta();
-        backItemMeta.setDisplayName(Utils.colorize("&aRespawn with /back"));
-        backItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn with /back!")));
+        backItemMeta.setDisplayName(Utils.colorize("&aRespawn dengan \"/back!\""));
+        backItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/back!\"")));
         backItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
         backItem.setItemMeta(backItemMeta);
 
         ItemMeta warpBaseItemMeta = warpBaseItem.getItemMeta();
-        warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn with /warp base"));
-        warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Click to respawn with /warp base!")));
+        warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn with \"/warp base!\""));
+        warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/warp base!\"")));
         warpBaseItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
         warpBaseItem.setItemMeta(warpBaseItemMeta);
