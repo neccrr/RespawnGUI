@@ -1,6 +1,0 @@
-name: RespawnGUI
-version: '1.0-SNAPSHOT'
-main: dev.necr.respawngui.RespawnGUI
-api-version: '1.20'
-authors: [necr]
-description: GUI on Respawn
