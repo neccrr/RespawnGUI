@@ -29,9 +29,9 @@ public class PlayerRespawnListener implements Listener {
 
     private final String title = "You Died!";
 
-    private final ItemStack respawnItem = new ItemStack(Material.EMERALD, 1);
+    private final ItemStack respawnItem = new ItemStack(Material.SUGAR_CANE, 1);
     private final ItemStack backItem = new ItemStack(Material.ARROW, 1);
-    private final ItemStack warpBaseItem = new ItemStack(Material.GRASS_BLOCK, 1);
+    private final ItemStack warpBaseItem = new ItemStack(Material.CHERRY_PLANKS, 1);
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
@@ -52,14 +52,14 @@ public class PlayerRespawnListener implements Listener {
 
         ItemMeta backItemMeta = backItem.getItemMeta();
         backItemMeta.setDisplayName(Utils.colorize("&aRespawn dengan \"/back!\""));
-        backItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/back!\"")));
+        backItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/back\"!")));
         backItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
         backItem.setItemMeta(backItemMeta);
 
         ItemMeta warpBaseItemMeta = warpBaseItem.getItemMeta();
         warpBaseItemMeta.setDisplayName(Utils.colorize("&aRespawn dengan \"/warp base!\""));
-        warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/warp base!\"")));
+        warpBaseItemMeta.setLore(Collections.singletonList(Utils.colorize("&7Klik untuk respawn dengan \"/warp base\"!")));
         warpBaseItemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
 
         warpBaseItem.setItemMeta(warpBaseItemMeta);
@@ -94,6 +94,8 @@ public class PlayerRespawnListener implements Listener {
             // Check if the clicked item is not null
             if (clickedItem != null) {
                 // this.plugin.getLogger().info("Player " + player.getName() + " clicked on an item!");
+                // Make the item unmovable
+                event.setCancelled(true);
 
                 // Check if the clicked item is the respawn item
                 if (clickedItem.getType() == respawnItem.getType()) {
@@ -102,6 +104,9 @@ public class PlayerRespawnListener implements Listener {
                     // Close the inventory
                     player.closeInventory();
                     // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+
+                    // Send "RESPAWNED" title to the player
+                    player.sendTitle(Utils.colorize("&aRESPAWNED!"), Utils.colorize("&eKamu telah respawn!"), 10, 70, 20);
                 }
 
                 // Check if the clicked item is the back item
@@ -115,6 +120,9 @@ public class PlayerRespawnListener implements Listener {
                     // Close the inventory
                     player.closeInventory();
                     // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+
+                    // Send "RESPAWNED" title to the player
+                    player.sendTitle(Utils.colorize("&aRESPAWNED!"), Utils.colorize("&eKamu telah respawn menggunakan \"/back\"!"), 10, 70, 20);
                 }
 
                 // Check if the clicked item is the warp base item
@@ -128,6 +136,9 @@ public class PlayerRespawnListener implements Listener {
                     // Close the inventory
                     player.closeInventory();
                     // this.plugin.getLogger().info("Closed inventory for " + player.getName() + "!");
+
+                    // Send "RESPAWNED" title to the player
+                    player.sendTitle(Utils.colorize("&aRESPAWNED!"), Utils.colorize("&eKamu telah respawn menggunakan \"/warp base\"!"), 10, 70, 20);
                 }
             }
         }
